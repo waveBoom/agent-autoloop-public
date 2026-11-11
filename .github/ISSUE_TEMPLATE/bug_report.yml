@@ -1,0 +1,48 @@
+name: 问题反馈 / Bug report
+description: 报告可以复现的故障，帮助定位和修复。
+labels: [bug]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        安装和配置问题也可以到 [使用问答](https://github.com/KKKKhazix/agent-autoloop/discussions/categories/q-a) 交流。
+        安全问题请按 [安全说明](https://github.com/KKKKhazix/agent-autoloop/blob/main/SECURITY.md) 联系维护者。
+        不要上传密钥、带权限的卡片链接、完整配置、数据库或真实业务资料。
+  - type: input
+    id: version
+    attributes:
+      label: 程序版本
+      description: 填写 agent-autoloop --version 的输出和安装或更新日期；源码运行时附提交号。
+    validations:
+      required: true
+  - type: textarea
+    id: environment
+    attributes:
+      label: 运行环境
+      description: 系统、Node.js 版本、相关 Agent 或插件，以及本机还是远程接单。
+      placeholder: macOS / Linux；node --version；Agent 名称与版本；相关通道。
+    validations:
+      required: true
+  - type: textarea
+    id: reproduction
+    attributes:
+      label: 复现步骤
+      description: 提供最少的操作步骤；需要规则示例时使用虚构数据和占位符。
+      placeholder: |
+        1. 配置……
+        2. 执行……
+        3. 出现……
+    validations:
+      required: true
+  - type: textarea
+    id: expected-actual
+    attributes:
+      label: 预期结果与实际结果
+      placeholder: 预期……；实际……
+    validations:
+      required: true
+  - type: textarea
+    id: evidence
+    attributes:
+      label: 日志或截图（可选）
+      description: 可附 doctor、status 或 why 的相关片段；先移除个人信息、业务正文和凭据。

@@ -1,0 +1,28 @@
+name: 功能建议 / Feature request
+description: 提出有明确使用场景的功能或改进。
+labels: [enhancement]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        还在探索的想法可以到 [想法交流](https://github.com/KKKKhazix/agent-autoloop/discussions/categories/ideas) 讨论。
+        新 Agent、来源和通道通过插件接入；内核保持零运行时依赖，界面由独立客户端提供。
+  - type: textarea
+    id: problem
+    attributes:
+      label: 使用场景与遇到的问题
+      description: 谁在什么情况下需要它？目前哪里不方便？
+    validations:
+      required: true
+  - type: textarea
+    id: proposal
+    attributes:
+      label: 希望怎样改进
+      description: 描述期望的行为或结果，可以附具体例子。
+    validations:
+      required: true
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: 已尝试的办法（可选）
+      description: 现有规则、插件或场景模板为什么不能满足需求？

@@ -1,0 +1,48 @@
+{
+  "timezone": "Asia/Shanghai",
+  "sources": { "app": { "name": "应用" }, "ops": { "name": "运维" }, "hooks": { "name": "外部", "adapter": "echo" } },
+  "agents": {
+    "a1": { "name": "甲", "worker": "w1", "use": "claude", "model": "m1", "effort": "high" },
+    "a2": { "name": "乙", "worker": "w2", "use": "codex", "access": "full" },
+    "a3": { "name": "丙", "worker": "w1", "use": "command", "command": ["echo", "{prompt}"] }
+  },
+  "channels": { "chat": { "name": "聊天", "answerers": ["me"] }, "plain": { "name": "文字", "links": true } },
+  "rules": [
+    {
+      "name": "意见",
+      "when": { "source": "app", "types": ["feedback.*"] },
+      "to": "a1",
+      "cwd": "~/x",
+      "skill": "s",
+      "prompt": "按手册做。",
+      "group": "notes",
+      "parallel": 3
+    },
+    {
+      "name": "告警",
+      "when": { "source": "ops", "types": ["alert.raised"] },
+      "to": "a2",
+      "cwd": "~/y",
+      "prompt": "处理告警。",
+      "group": "ops",
+      "tell": "always"
+    },
+    {
+      "name": "告警也记一笔",
+      "when": { "source": "ops", "types": ["alert.raised"] },
+      "to": "a1",
+      "cwd": "~/x",
+      "prompt": "记下来。",
+      "tell": "never"
+    },
+    { "name": "早报", "when": { "cron": "0 9 * * *" }, "to": "a1", "cwd": "~/x", "prompt": "写早报。" },
+    {
+      "name": "巡检",
+      "when": { "cron": "*/5 * * * *" },
+      "to": "a3",
+      "cwd": "~/y",
+      "emits": { "source": "app", "types": ["feedback.new"] }
+    }
+  ],
+  "elsewhere": [{ "name": "每周清理", "source": "app", "to": "a1", "cron": "0 6 * * 0", "where": "应用里的定时任务" }]
+}

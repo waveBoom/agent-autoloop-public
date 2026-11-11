@@ -1,0 +1,16 @@
+{
+  "sources": {},
+  "agents": {
+    "agent": { "name": "Agent", "worker": "mac-mini", "use": "codex", "access": "edit" }
+  },
+  "rules": [
+    {
+      "name": "早报",
+      "when": { "cron": "0 8 * * *" },
+      "to": "agent",
+      "cwd": "~/notes",
+      "skill": "morning-brief",
+      "tell": "always"
+    }
+  ]
+}

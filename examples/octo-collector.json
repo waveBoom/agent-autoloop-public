@@ -1,0 +1,13 @@
+{
+  "profile": "replace-with-octo-profile",
+  "workspace": "replace-with-workspace",
+  "assignee": "replace-with-member-name",
+  "hubUrl": "http://127.0.0.1:3350",
+  "rulesFile": "/absolute/path/to/rules.json",
+  "stateFile": "/absolute/path/to/octo-collector.state.json",
+  "intervalSeconds": 600,
+  "sourceKeyEnv": {
+    "octo-issue": "AUTOLOOP_OCTO_ISSUE_KEY"
+  },
+  "routes": {}
+}

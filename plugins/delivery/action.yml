@@ -1,0 +1,28 @@
+name: 判断这次是否发布
+description: 对比健康版本和目标提交，保留尚未发布的代码变化
+inputs:
+  target:
+    description: 要发布的完整提交编号，默认 github.sha
+    required: false
+  test-local-health:
+    description: 仅用于测试，允许健康检查使用 http://127.0.0.1
+    default: "false"
+outputs:
+  release:
+    description: 是否需要发布
+    value: ${{ steps.scope.outputs.release }}
+  superseded:
+    description: 更新的 main 是否已含有需要另行发布的代码
+    value: ${{ steps.scope.outputs.superseded }}
+runs:
+  using: composite
+  steps:
+    - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+      with:
+        node-version: "24"
+    - id: scope
+      shell: bash
+      env:
+        INPUT_TARGET: ${{ inputs.target }}
+        INPUT_TEST_LOCAL_HEALTH: ${{ inputs.test-local-health }}
+      run: node --disable-warning=ExperimentalWarning "$GITHUB_ACTION_PATH/action.ts"

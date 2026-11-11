@@ -1,0 +1,8 @@
+{
+  "testUrl": "https://test.example.invalid/",
+  "repositories": {
+    "api": {
+      "testBranch": "test"
+    }
+  }
+}

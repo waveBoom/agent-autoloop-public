@@ -1,0 +1,29 @@
+{
+  "askFirst": ["删数据", "停服", "花钱", "对外发消息", "改产品方向", "新建或轮换密钥", "修改权限", "动线上"],
+  "sources": {
+    "shop": { "name": "shop" },
+    "shop-fix": { "name": "shop 修复" }
+  },
+  "agents": {
+    "agent": { "name": "Agent", "worker": "mac-mini", "use": "codex", "access": "read" },
+    "restart": { "name": "重启脚本", "worker": "mac-mini", "use": "command", "command": ["{cwd}/restart.sh"] }
+  },
+  "rules": [
+    {
+      "name": "查线上报错",
+      "when": { "source": "shop", "types": ["alert.*"] },
+      "to": "agent",
+      "cwd": "~/code/shop",
+      "skill": "ops-alerts",
+      "parallel": 3,
+      "emits": { "source": "shop-fix", "types": ["restart"] }
+    },
+    {
+      "name": "重启",
+      "when": { "source": "shop-fix", "types": ["restart"] },
+      "to": "restart",
+      "cwd": "~/code/shop",
+      "tell": "always"
+    }
+  ]
+}

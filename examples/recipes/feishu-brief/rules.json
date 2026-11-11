@@ -1,0 +1,57 @@
+{
+  "timezone": "Asia/Shanghai",
+  "askFirst": ["删数据", "停服", "花钱", "对外发消息", "改产品方向", "新建或轮换密钥", "修改权限"],
+  "sources": {
+    "feishu-brief": {
+      "name": "飞书摘要资料"
+    }
+  },
+  "agents": {
+    "brief-collector": {
+      "name": "飞书资料读取",
+      "worker": "my-computer",
+      "use": "command",
+      "command": ["node", "{cwd}/collect.ts", "{cwd}/sources.json"]
+    },
+    "brief-agent": {
+      "name": "周报摘要 Agent",
+      "worker": "my-computer",
+      "use": "codex",
+      "access": "edit"
+    }
+  },
+  "rules": [
+    {
+      "name": "读取飞书周报资料",
+      "when": {
+        "cron": "0 18 * * 0"
+      },
+      "to": "brief-collector",
+      "cwd": "~/.agent-autoloop/work/feishu-brief",
+      "group": "feishu-brief",
+      "tell": "needed",
+      "emits": {
+        "source": "feishu-brief",
+        "types": ["brief.ready"]
+      }
+    },
+    {
+      "name": "整理飞书周报与业务摘要",
+      "when": {
+        "source": "feishu-brief",
+        "types": ["brief.ready"]
+      },
+      "to": "brief-agent",
+      "cwd": "~/.agent-autoloop/work/feishu-brief",
+      "group": "feishu-brief",
+      "skill": "feishu-brief",
+      "tell": "needed"
+    }
+  ],
+  "channels": {
+    "feishu": {
+      "name": "飞书",
+      "answerers": ["ou_REPLACE_ME"]
+    }
+  }
+}

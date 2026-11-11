@@ -1,0 +1,36 @@
+{
+  "name": "agent-autoloop",
+  "description": "Let Agents follow up on work and ask when they need your judgment.",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/KKKKhazix/agent-autoloop.git"
+  },
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": ">=24"
+  },
+  "bin": {
+    "agent-autoloop": "bin/agent-autoloop.ts"
+  },
+  "scripts": {
+    "test": "node --disable-warning=ExperimentalWarning --test tests/*.test.ts",
+    "test:quick": "node --disable-warning=ExperimentalWarning --test \"tests/!(simulation).test.ts\"",
+    "typecheck": "tsc -p .",
+    "format": "prettier --write \"**/*.{ts,json,yml}\"",
+    "format:check": "prettier --check \"**/*.{ts,json,yml}\"",
+    "test:sim": "node --disable-warning=ExperimentalWarning sim/random.ts 24301 20000",
+    "test:deep": "node --disable-warning=ExperimentalWarning --test --test-concurrency=1 sim/*.test.ts",
+    "test:nightly": "npm run test:deep && node --disable-warning=ExperimentalWarning scripts/benchmark.ts --check",
+    "benchmark": "node --disable-warning=ExperimentalWarning scripts/benchmark.ts --check"
+  },
+  "devDependencies": {
+    "@types/node": "26.6.4",
+    "prettier": "3.9.10",
+    "typescript": "7.0.2"
+  },
+  "prettier": {
+    "printWidth": 120
+  }
+}

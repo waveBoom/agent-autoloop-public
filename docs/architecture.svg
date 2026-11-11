@@ -1,0 +1,178 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 680" role="img" aria-labelledby="t">
+<title id="t">Agent Autoloop 架构图：内核在中间，其他都是插件</title>
+<defs>
+<style>
+svg{--bg:#faf9f5;--ink:#1d1c19;--muted:#6e6b64;--line:#d6d3cb;--card:#fff;--item:#f4f2ec;--accent:#c2491d;--core:#1d1c19;--core-ink:#faf9f5;--core-duty:#33302a;--core-chip:#282621;--core-line:#423f38;--core-sub:#b9b5ab;--core-accent:#ef8a62;--tag-bg:#3d261c;--tag-ink:#ffb08e;--you-bg:#fff4ee}
+@media (prefers-color-scheme:dark){svg{--bg:#151412;--ink:#f1efe9;--muted:#a29e95;--line:#45433d;--card:#1e1d1a;--item:#262420;--accent:#ef8a62;--core:#f1efe9;--core-ink:#1d1c19;--core-duty:#dedad0;--core-chip:#e6e3da;--core-line:#cac5b9;--core-sub:#57544d;--core-accent:#c2491d;--tag-bg:#f8dfd3;--tag-ink:#a83810;--you-bg:#2a1f1a}}
+text{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Noto Sans CJK SC","Microsoft YaHei",sans-serif;font-size:14px;fill:var(--ink)}
+.h2{font-size:17px;font-weight:600}
+.s{font-size:12.5px;fill:var(--muted)}
+.r{font-size:13.5px}
+.l{font-size:13.5px;font-weight:600;fill:var(--accent)}
+.bg{fill:var(--bg)}
+.plug{fill:var(--card);stroke:var(--muted);stroke-width:1.3;stroke-dasharray:6 5}
+.item{fill:var(--item);stroke:var(--line)}
+.loop-pill{fill:var(--you-bg);stroke:var(--accent);stroke-width:1.4}
+.loop-text{font-size:13px;font-weight:600;fill:var(--accent)}
+.more{fill:none;stroke:var(--line);stroke-dasharray:4 4}
+.dot{fill:var(--muted)}
+.core{fill:var(--core);stroke:var(--core-accent);stroke-width:2}
+.duty{fill:var(--core-duty);stroke:var(--core-line)}
+.chip{fill:var(--core-chip)}
+.tag{fill:var(--tag-bg);stroke:var(--core-accent);stroke-width:1}
+.ct{font-size:22px;font-weight:700;fill:var(--core-ink)}
+.cs{font-size:12px;fill:var(--core-sub)}
+.cn{font-size:14.5px;font-weight:600;fill:var(--core-ink)}
+.cd{font-size:12px;fill:var(--core-sub)}
+.tn{font-size:12.5px;font-weight:700;fill:var(--tag-ink)}
+.td{font-size:11.8px;fill:var(--core-ink)}
+.you{fill:var(--you-bg);stroke:var(--accent);stroke-width:2.4}
+.you-t{font-size:20px;font-weight:700;fill:var(--accent)}
+.you-s{font-size:13px;font-weight:600;fill:var(--ink)}
+.badge{fill:var(--accent)}
+.n{font-size:12.5px;font-weight:700;fill:var(--bg)}
+.conn{fill:none;stroke:var(--accent);stroke-width:2.1;marker-end:url(#a)}
+.back{fill:none;stroke:var(--accent);stroke-width:1.8;stroke-dasharray:6 4;marker-end:url(#a)}
+.flow{fill:none;stroke:var(--muted);stroke-width:1.4;marker-end:url(#b)}
+.both{fill:none;stroke:var(--accent);stroke-width:1.8;marker-start:url(#a);marker-end:url(#a)}
+</style>
+<marker id="a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" style="fill:var(--accent)"/></marker>
+<marker id="b" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" style="fill:var(--muted)"/></marker>
+</defs>
+<rect class="bg" x="0" y="0" width="960" height="680" rx="18"/>
+
+<!-- 顶部自动闭环回弧：自己干完 / 到点复查 -> 回到内核 -->
+<path class="back" d="M851 66V28H480V63"/>
+<rect class="loop-pill" x="492" y="13" width="344" height="30" rx="15"/>
+<text x="664" y="33" class="loop-text" text-anchor="middle">自动闭环：自己干完 · 到点复查 · 触发下一步</text>
+
+<!-- 左：事件插件 -->
+<rect class="plug" x="22" y="68" width="174" height="316" rx="14"/>
+<text x="38" y="100" class="h2">事件插件</text>
+<text x="38" y="121" class="s">负责发现新任务</text>
+<rect class="item" x="36" y="142" width="146" height="36" rx="8"/>
+<text x="109" y="165" class="r" text-anchor="middle">定时任务</text>
+<rect class="item" x="36" y="188" width="146" height="36" rx="8"/>
+<text x="109" y="211" class="r" text-anchor="middle">GitHub</text>
+<rect class="item" x="36" y="234" width="146" height="36" rx="8"/>
+<text x="109" y="257" class="r" text-anchor="middle">你的业务系统</text>
+<rect class="item" x="36" y="280" width="146" height="36" rx="8"/>
+<text x="109" y="303" class="r" text-anchor="middle">轮询脚本</text>
+<rect class="more" x="36" y="326" width="146" height="32" rx="8"/>
+<circle class="dot" cx="97" cy="342" r="2.4"/>
+<circle class="dot" cx="109" cy="342" r="2.4"/>
+<circle class="dot" cx="121" cy="342" r="2.4"/>
+
+<!-- 1: 新事件 -->
+<path class="conn" d="M198 226H246"/>
+<circle class="badge" cx="222" cy="203" r="12"/>
+<text x="222" y="207.5" class="n" text-anchor="middle">1</text>
+<text x="222" y="246" class="l" text-anchor="middle">新事件</text>
+
+<!-- 中：Autoloop 内核 -->
+<rect class="core" x="250" y="68" width="460" height="316" rx="22"/>
+<text x="272" y="103" class="ct">Autoloop 内核</text>
+<text x="688" y="101" class="cs" text-anchor="end">约 1650 行 · 零依赖 · 确定性</text>
+
+<!-- 内核核心职责 -->
+<rect class="duty" x="268" y="116" width="424" height="52" rx="10"/>
+<text x="480" y="139" class="cn" text-anchor="middle">按你的规则分派任务</text>
+<text x="480" y="158" class="cd" text-anchor="middle">决定交给哪个 Agent、去哪个目录干 · 同一件事自动合并</text>
+
+<!-- 4 个内核机制标签 -->
+<rect class="chip" x="268" y="180" width="424" height="40" rx="9"/>
+<rect class="tag" x="276" y="187" width="92" height="26" rx="6"/>
+<text x="322" y="204.5" class="tn" text-anchor="middle">挂起零消耗</text>
+<text x="378" y="204.5" class="td">等你拍板时进程直接退出，不烧 Token，回来接着原对话</text>
+
+<rect class="chip" x="268" y="228" width="424" height="40" rx="9"/>
+<rect class="tag" x="276" y="235" width="92" height="26" rx="6"/>
+<text x="322" y="252.5" class="tn" text-anchor="middle">事件溯源</text>
+<text x="378" y="252.5" class="td">强杀不丢，每步可追溯，升级从日志重建、不迁库</text>
+
+<rect class="chip" x="268" y="276" width="424" height="40" rx="9"/>
+<rect class="tag" x="276" y="283" width="92" height="26" rx="6"/>
+<text x="322" y="300.5" class="tn" text-anchor="middle">指令数据分离</text>
+<text x="378" y="300.5" class="td">Issue 里的话进不了提示词，也改不了目录和权限</text>
+
+<rect class="chip" x="268" y="324" width="424" height="40" rx="9"/>
+<rect class="tag" x="276" y="331" width="92" height="26" rx="6"/>
+<text x="322" y="348.5" class="tn" text-anchor="middle">跳数熔断</text>
+<text x="378" y="348.5" class="td">Agent 互相触发超过 8 层自动停下，不烧光额度</text>
+
+<!-- 2 & 3: 派活与交结果 -->
+<path class="conn" d="M712 190H760"/>
+<circle class="badge" cx="736" cy="167" r="12"/>
+<text x="736" y="171.5" class="n" text-anchor="middle">2</text>
+<text x="736" y="210" class="l" text-anchor="middle">派活</text>
+
+<path class="conn" d="M760 266H712"/>
+<circle class="badge" cx="736" cy="243" r="12"/>
+<text x="736" y="247.5" class="n" text-anchor="middle">3</text>
+<text x="736" y="286" class="l" text-anchor="middle">交结果</text>
+
+<!-- 右：Agent 插件 -->
+<rect class="plug" x="764" y="68" width="174" height="316" rx="14"/>
+<text x="780" y="100" class="h2">Agent 插件</text>
+<text x="780" y="121" class="s">负责干活的 AI</text>
+<rect class="item" x="778" y="142" width="146" height="36" rx="8"/>
+<text x="851" y="165" class="r" text-anchor="middle">Claude Code</text>
+<rect class="item" x="778" y="188" width="146" height="36" rx="8"/>
+<text x="851" y="211" class="r" text-anchor="middle">Codex</text>
+<rect class="item" x="778" y="234" width="146" height="36" rx="8"/>
+<text x="851" y="257" class="r" text-anchor="middle">DeepSeek Harness</text>
+<rect class="item" x="778" y="280" width="146" height="36" rx="8"/>
+<text x="851" y="303" class="r" text-anchor="middle">Pi · OpenClaw</text>
+<rect class="more" x="778" y="326" width="146" height="32" rx="8"/>
+<circle class="dot" cx="839" cy="342" r="2.4"/>
+<circle class="dot" cx="851" cy="342" r="2.4"/>
+<circle class="dot" cx="863" cy="342" r="2.4"/>
+
+<!-- 下方人机闭环：4 拿不准才问你 -> 通道插件 -> 你 -> 5 拍板后接着干 -->
+<path class="conn" d="M560 386V448"/>
+<circle class="badge" cx="560" cy="417" r="12"/>
+<text x="560" y="421.5" class="n" text-anchor="middle">4</text>
+<text x="580" y="422" class="l">拿不准才发卡片问你</text>
+
+<rect class="plug" x="390" y="452" width="548" height="92" rx="14"/>
+<text x="410" y="480" class="h2">通道插件</text>
+<text x="490" y="480" class="s">把问题卡片送到你手边</text>
+<rect class="item" x="410" y="494" width="114" height="36" rx="8"/>
+<text x="467" y="517" class="r" text-anchor="middle">桌面通知</text>
+<rect class="item" x="534" y="494" width="104" height="36" rx="8"/>
+<text x="586" y="517" class="r" text-anchor="middle">飞书</text>
+<rect class="item" x="648" y="494" width="126" height="36" rx="8"/>
+<text x="711" y="517" class="r" text-anchor="middle">钉钉 · 企微</text>
+<rect class="item" x="784" y="494" width="134" height="36" rx="8"/>
+<text x="851" y="517" class="r" text-anchor="middle">Slack · Discord</text>
+
+<path class="both" d="M388 498H328"/>
+<rect class="you" x="172" y="454" width="152" height="88" rx="26"/>
+<text x="248" y="493" class="you-t" text-anchor="middle">你</text>
+<text x="248" y="517" class="you-s" text-anchor="middle">只管拍板</text>
+
+<!-- 5: 你的回答 -> 回到内核接着干 -->
+<path class="conn" d="M248 452V410H400V386"/>
+<circle class="badge" cx="324" cy="410" r="12"/>
+<text x="324" y="414.5" class="n" text-anchor="middle">5</text>
+<text x="232" y="415" class="l" text-anchor="end">点一下，接着原对话干完</text>
+
+<!-- 底部：交付流水线 -->
+<rect class="plug" x="22" y="584" width="916" height="72" rx="14"/>
+<text x="40" y="614" class="h2">代码交付流水线</text>
+<text x="40" y="636" class="s">内置插件示例（事件 + Agent）</text>
+<rect class="item" x="260" y="602" width="106" height="36" rx="8"/>
+<text x="313" y="625" class="r" text-anchor="middle">审代码</text>
+<path class="flow" d="M367 620H395"/>
+<rect class="item" x="396" y="602" width="106" height="36" rx="8"/>
+<text x="449" y="625" class="r" text-anchor="middle">跑检查</text>
+<path class="flow" d="M503 620H531"/>
+<rect class="item" x="532" y="602" width="106" height="36" rx="8"/>
+<text x="585" y="625" class="r" text-anchor="middle">合代码</text>
+<path class="flow" d="M639 620H667"/>
+<rect class="item" x="668" y="602" width="106" height="36" rx="8"/>
+<text x="721" y="625" class="r" text-anchor="middle">自动上线</text>
+<path class="flow" d="M775 620H803"/>
+<rect class="item" x="804" y="602" width="114" height="36" rx="8"/>
+<text x="861" y="625" class="r" text-anchor="middle">核对线上版本</text>
+</svg>

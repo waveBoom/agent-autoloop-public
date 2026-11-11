@@ -1,0 +1,13 @@
+{
+  "reportRule": "工作周报",
+  "reportUsers": ["ou_REPLACE_ME"],
+  "tables": [
+    {
+      "name": "项目执行表",
+      "baseToken": "REPLACE_ME",
+      "tableId": "tbl_REPLACE_ME",
+      "fields": ["项目", "状态", "截止日期"],
+      "url": "https://example.com/replace-with-your-table-link"
+    }
+  ]
+}

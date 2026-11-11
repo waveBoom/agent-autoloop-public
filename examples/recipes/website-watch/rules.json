@@ -1,0 +1,56 @@
+{
+  "timezone": "Asia/Shanghai",
+  "askFirst": ["删数据", "停服", "花钱", "对外发消息", "改产品方向", "新建或轮换密钥", "修改权限"],
+  "sources": {
+    "website-watch": {
+      "name": "网站巡检"
+    }
+  },
+  "agents": {
+    "website-check": {
+      "name": "网站检查脚本",
+      "worker": "my-computer",
+      "use": "command",
+      "command": ["node", "{cwd}/check.ts", "{cwd}/site.json"]
+    },
+    "website-agent": {
+      "name": "网站维护 Agent",
+      "worker": "my-computer",
+      "use": "codex",
+      "access": "read"
+    }
+  },
+  "rules": [
+    {
+      "name": "检查网站",
+      "when": {
+        "cron": "*/5 * * * *"
+      },
+      "to": "website-check",
+      "cwd": "~/.agent-autoloop/work/website-watch",
+      "group": "website-probe",
+      "tell": "needed",
+      "emits": {
+        "source": "website-watch",
+        "types": ["site.down", "site.recovered"]
+      }
+    },
+    {
+      "name": "排查网站异常",
+      "when": {
+        "source": "website-watch",
+        "types": ["site.down", "site.recovered"]
+      },
+      "to": "website-agent",
+      "cwd": "~/code/my-project",
+      "skill": "website-watch",
+      "tell": "needed"
+    }
+  ],
+  "channels": {
+    "feishu": {
+      "name": "飞书",
+      "answerers": ["ou_REPLACE_ME"]
+    }
+  }
+}

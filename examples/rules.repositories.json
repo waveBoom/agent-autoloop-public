@@ -1,0 +1,71 @@
+{
+  "timezone": "Asia/Shanghai",
+  "askFirst": ["删数据", "停服", "花钱", "对外发消息", "改产品方向", "新建或轮换密钥", "修改权限"],
+  "sources": {
+    "octo-issue": {
+      "name": "Octo Issue"
+    }
+  },
+  "agents": {
+    "codex": {
+      "name": "Codex",
+      "worker": "replace-with-your-worker-name",
+      "use": "codex",
+      "access": "edit",
+      "effort": "high",
+      "timeout": 180
+    }
+  },
+  "channels": {},
+  "rules": [
+    {
+      "name": "报表项目",
+      "aliases": ["reporting"],
+      "keywords": ["reporting", "报表项目"],
+      "when": {
+        "source": "octo-issue",
+        "types": ["task.reporting.created", "task.reporting.comment"]
+      },
+      "to": "codex",
+      "cwd": "~/workflows/reporting",
+      "repositories": {
+        "api": {
+          "path": "~/code/reporting-api",
+          "baseBranch": "main"
+        }
+      },
+      "prompt": "核实任务和已有资料。需要修改代码时先提交方案，写清涉及仓库、关键改动和验收方式。方案获批后在登记的任务工作区内执行。",
+      "group": "reporting-tasks",
+      "parallel": 3,
+      "tell": "needed",
+      "resumeOn": ["task.reporting.comment"],
+      "planApproval": true,
+      "prepareWorktrees": true
+    },
+    {
+      "name": "同步项目",
+      "aliases": ["sync"],
+      "keywords": ["sync", "同步项目"],
+      "when": {
+        "source": "octo-issue",
+        "types": ["task.sync.created", "task.sync.comment"]
+      },
+      "to": "codex",
+      "cwd": "~/workflows/sync",
+      "repositories": {
+        "api": {
+          "path": "~/code/sync-api",
+          "baseBranch": "main"
+        }
+      },
+      "prompt": "核实任务和已有资料。需要修改代码时先提交方案，写清涉及仓库、关键改动和验收方式。方案获批后在登记的任务工作区内执行。",
+      "group": "sync-tasks",
+      "parallel": 3,
+      "tell": "needed",
+      "resumeOn": ["task.sync.comment"],
+      "planApproval": true,
+      "prepareWorktrees": true
+    }
+  ],
+  "elsewhere": []
+}

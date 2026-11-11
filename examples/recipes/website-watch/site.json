@@ -1,0 +1,6 @@
+{
+  "id": "site",
+  "name": "示例网站",
+  "url": "https://example.com/health",
+  "contains": "\"ok\":true"
+}

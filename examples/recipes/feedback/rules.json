@@ -1,0 +1,37 @@
+{
+  "timezone": "Asia/Shanghai",
+  "askFirst": ["删数据", "停服", "花钱", "对外发消息", "改产品方向", "新建或轮换密钥", "修改权限"],
+  "sources": {
+    "feedback": {
+      "name": "用户反馈"
+    }
+  },
+  "agents": {
+    "feedback-agent": {
+      "name": "反馈维护 Agent",
+      "worker": "my-computer",
+      "use": "codex",
+      "access": "edit"
+    }
+  },
+  "rules": [
+    {
+      "name": "处理用户反馈",
+      "when": {
+        "source": "feedback",
+        "types": ["feedback.new", "feedback.followup"]
+      },
+      "to": "feedback-agent",
+      "cwd": "~/code/my-project",
+      "skill": "handle-feedback",
+      "parallel": 3,
+      "tell": "needed"
+    }
+  ],
+  "channels": {
+    "feishu": {
+      "name": "飞书",
+      "answerers": ["ou_REPLACE_ME"]
+    }
+  }
+}

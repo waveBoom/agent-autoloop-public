@@ -1,0 +1,8 @@
+{
+  "id": "feedback-42-revision-1",
+  "type": "feedback.new",
+  "subject": "feedback:42",
+  "summary": "导出按钮没有反应",
+  "detail": "演示资料：点击导出后没有生成文件。请在接入时用自己系统的编号和版本替换。",
+  "link": "https://example.com/feedback/42"
+}
